@@ -1,4 +1,4 @@
-module github.com/username/telegram-kbbi-bot
+module github.com/username/v
 
 go 1.19
 
