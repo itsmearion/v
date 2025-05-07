@@ -16,7 +16,7 @@ var kata = []string{
 	"hore", "kenapa", "aman", "beli", "cari", "damai", "enak", "fakta",
 	"ganti", "harap", "indah", "jalan", "kaya", "lama", "makan", "nama",
 	"opini", "pakai", "quran", "rasa", "suka", "tanya", "untuk", "vokal",
-	"warna", "xenon", "yakin", "zebra",
+	"warna", "xenon", "yakin", "zebra", "sakit", "sikat", "suntuk", "sumpah", "sebel", "sudah"
 }
 
 func generateUsername(word string) string {
@@ -52,8 +52,8 @@ func handleCommand(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
 	
 	switch update.Message.Command() {
 	case "start":
-		msg.Text = "Selamat datang di Bot Generator Username KBBI!\n" +
-			"Gunakan perintah /generate untuk mendapatkan username baru dari KBBI.\n" +
+		msg.Text = "selamat datang by @lketipu\n" +
+			"gunakan perintah /generate untuk mendapatkan username baru dari KBBI.\n" +
 			"Contoh hasil: @horqe (dari kata hore), @kenoa (dari kata kenapa)"
 	
 	case "generate":
