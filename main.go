@@ -16,7 +16,7 @@ var kata = []string{
 	"hore", "kenapa", "aman", "beli", "cari", "damai", "enak", "fakta",
 	"ganti", "harap", "indah", "jalan", "kaya", "lama", "makan", "nama",
 	"opini", "pakai", "quran", "rasa", "suka", "tanya", "untuk", "vokal",
-	"warna", "xenon", "yakin", "zebra", "sakit", "sikat", "suntuk", "sumpah", "sebel", "sudah"
+	"warna", "xenon", "yakin", "zebra", "sakit", "sikat", "suntuk", "sumpah", "sebel", "sudah",  "foto", "izin", "karir", "karena", "kamu"
 }
 
 func generateUsername(word string) string {
