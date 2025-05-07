@@ -47,13 +47,48 @@ func generateUsername(word string) string {
 	return prefix + string(randomChars)
 }
 
+func main() {
+	// Set seed untuk random
+	rand.Seed(time.Now().UnixNano())
+	
+	// Ambil token dari environment variable
+	token := os.Getenv("TELEGRAM_BOT_TOKEN")
+	if token == "" {
+		log.Fatal("TELEGRAM_BOT_TOKEN tidak ditemukan")
+	}
+	
+	bot, err := tgbotapi.NewBotAPI(token)
+	if err != nil {
+		log.Fatalf("Error initializing bot: %v", err)
+	}
+	
+	log.Printf("Bot berhasil dimulai: %s", bot.Self.UserName)
+	
+	u := tgbotapi.NewUpdate(0)
+	u.Timeout = 60
+	
+	updates := bot.GetUpdatesChan(u)
+	
+	for update := range updates {
+		if update.Message == nil {
+			continue
+		}
+		
+		if update.Message.IsCommand() {
+			handleCommand(update, bot)
+		} else {
+			handleMessage(update, bot)
+		}
+	}
+}
+
 func handleCommand(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
 	
 	switch update.Message.Command() {
 	case "start":
-		msg.Text = "selamat datang by @lketipu\n" +
-			"gunakan perintah /generate untuk mendapatkan username baru dari KBBI.\n" +
+		msg.Text = "Selamat datang di Bot Generator Username KBBI by @lketipu!\n" +
+			"Gunakan perintah /generate untuk mendapatkan username baru dari KBBI.\n" +
 			"Contoh hasil: @horqe (dari kata hore), @kenoa (dari kata kenapa)"
 	
 	case "generate":
@@ -77,11 +112,6 @@ func handleCommand(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
 
 func handleMessage(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
 	if update.Message == nil {
-		return
-	}
-	
-	if update.Message.IsCommand() {
-		handleCommand(update, bot)
 		return
 	}
 	
@@ -109,32 +139,5 @@ func handleMessage(update tgbotapi.Update, bot *tgbotapi.BotAPI) {
 	
 	if _, err := bot.Send(msg); err != nil {
 		log.Printf("Error sending message: %v", err)
-	}
-}
-
-func main() {
-	// Set seed untuk random
-	rand.Seed(time.Now().UnixNano())
-	
-	// Ambil token dari environment variable
-	token := os.Getenv("TELEGRAM_BOT_TOKEN")
-	if token == "" {
-		log.Fatal("TELEGRAM_BOT_TOKEN tidak ditemukan")
-	}
-	
-	bot, err := tgbotapi.NewBotAPI(token)
-	if err != nil {
-		log.Fatalf("Error initializing bot: %v", err)
-	}
-	
-	log.Printf("Bot berhasil dimulai: %s", bot.Self.UserName)
-	
-	u := tgbotapi.NewUpdate(0)
-	u.Timeout = 60
-	
-	updates := bot.GetUpdatesChan(u)
-	
-	for update := range updates {
-		handleMessage(update, bot)
 	}
 }
