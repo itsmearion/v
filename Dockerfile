@@ -2,11 +2,12 @@ FROM golang:1.19-alpine AS builder
 
 WORKDIR /app
 
-# Copy go.mod and go.sum files
-COPY go.mod go.sum ./
+# Copy go.mod file
+COPY go.mod ./
 
-# Download dependencies
+# Initialize module and download dependencies
 RUN go mod download
+RUN go mod tidy
 
 # Copy source code
 COPY . .
