@@ -1,4 +1,4 @@
-module github.com/username/v
+module github.com/itsmearion/v
 
 go 1.19
 
